@@ -1,5 +1,5 @@
 import yfinance
-import matplotlib import pyplot
+from matplotlib import pyplot
 
 class Stock:
   def __init__(self, id: str):
