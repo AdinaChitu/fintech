@@ -1,5 +1,5 @@
 import yfinance
-
+import matplotlib import pyplot
 
 class Stock:
   def __init__(self, id: str):
@@ -24,5 +24,15 @@ class Stock:
     # check all function names of an object
     # print(dir(self.ticker))
     history = self.ticker.history(start=start_date, end=end_date)
-    print(history)
-    print(type(history))
+    close = history["Close"]
+    figure, axes = pyplot.subplots(figsize=(16, 9))
+
+    axes.plot(close.index, close, label="Diagram of stock")
+
+    axes.set_xlabel("Date")
+    axes.set_ylabel("Close price")
+    axes.legend()
+
+    pyplot.savefig(f"diagram-{self.id}.png")
+
+

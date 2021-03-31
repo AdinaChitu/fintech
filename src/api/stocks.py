@@ -1,8 +1,10 @@
 from fastapi import APIRouter
-from fastapi.response import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 
 from api.models import NewStock, StockInfo, StockRecommendations, NewDiagram
 from finance.repo import StocksRepo
+
+import os
 
 router = APIRouter(prefix="/stocks")
 
@@ -28,8 +30,15 @@ def get_stock_recommendations(stock_id: str):
         return JSONResponse(status_code=404, content="The specified stock was not added.")
     return StockRecommendations.from_orm(stock[0])
 
+
 @router.post("/{stock_id}/diagram")
 def create_diagram(stock_id: str, body: NewDiagram):
     repo = StocksRepo()
     stock = repo.get_by_id(stock_id)[0]
     stock.draw_diagram(body.start_date, body.end_date)
+
+@router.get("/diagram")
+def get_diagram(stock_id: str):
+    current_dir = os.getcwd()
+    path = f"{current_dir}\diagram-{stock_id}.png"
+    return FileResponse(path)
