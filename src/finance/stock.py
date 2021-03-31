@@ -18,3 +18,11 @@ class Stock:
         grades = item[1].values.tolist()
     self.rec = list(map(lambda x, y: {"firm": x, "grade": y}, firms, grades))
 
+  def draw_diagram(self, start_date: str, end_date: str):
+    # check all properties names of an object
+    # print(self.ticker.__dict__.keys())
+    # check all function names of an object
+    # print(dir(self.ticker))
+    history = self.ticker.history(start=start_date, end=end_date)
+    print(history)
+    print(type(history))
